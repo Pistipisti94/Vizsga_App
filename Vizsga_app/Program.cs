@@ -10,6 +10,7 @@ namespace Vizsga_app
     {
         static void Main(string[] args)
         {
+            asd
         }
     }
 }
