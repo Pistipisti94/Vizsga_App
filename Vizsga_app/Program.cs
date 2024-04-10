@@ -11,10 +11,14 @@ namespace Vizsga_app
 {
     internal class Program
     {
-
+         
+        
         static async Task Main(string[] args)
         {
+            Console.WriteLine("1. Feladat\n\n");
             await UgyfelAdatok();
+            Console.WriteLine("2. Feladat\n\n");
+            await BefizAdatok();
             Console.Title = "Ugyfelek";
 
 
@@ -30,6 +34,29 @@ namespace Vizsga_app
                 foreach (var item in ugyfelek)
                 {
                     Console.WriteLine($"{item.Nev}");
+                    
+                }
+                
+            }
+        }private static async Task BefizAdatok()
+        {
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage responseMessage = await httpClient.GetAsync("http://localhost/Vizsga_Backend/index.php?befizetes");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                string jsonString = await responseMessage.Content.ReadAsStringAsync();
+                var befizetesek = Befizetesek.FromJson(jsonString);
+                List<string> osszeg = new List<string>();
+ 
+                foreach (var item in befizetesek)
+                {
+                    osszeg.Add(item.Osszeg.ToString());
+                
+                }
+                
+                for (int i = 0; i < osszeg.Count; i++)
+                {
+                    Console.WriteLine(osszeg[i]);
                 }
                 Console.ReadLine();
             }
